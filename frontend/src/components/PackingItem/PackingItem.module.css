@@ -7,11 +7,20 @@
   border: 0.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg);
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
-.row:hover { border-color: var(--border-mid); }
-.checked { opacity: 0.5; background: var(--bg-soft); }
-.checked .name { text-decoration: line-through; }
+.row:hover {
+  border-color: var(--border-mid);
+}
+.checked {
+  opacity: 0.5;
+  background: var(--bg-soft);
+}
+.checked .name {
+  text-decoration: line-through;
+}
 
 .checkbox {
   width: 20px;
@@ -26,15 +35,40 @@
   transition: all 0.15s;
   flex-shrink: 0;
 }
-.checkbox:hover { border-color: var(--blue); }
-.checkboxOn { background: var(--blue); border-color: var(--blue); }
-.tick { color: #fff; font-size: 11px; font-weight: 700; }
+.checkbox:hover {
+  border-color: var(--blue);
+}
+.checkboxOn {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.tick {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
 
-.icon { font-size: 15px; flex-shrink: 0; }
+.icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
 
-.info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.name { font-size: 13px; font-weight: 500; color: var(--ink); }
-.cat  { font-size: 11px; color: var(--ink-3); }
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.cat {
+  font-size: 11px;
+  color: var(--ink-3);
+}
 
 .essential {
   font-size: 10px;
@@ -58,7 +92,9 @@
   transition: background 0.15s;
   flex-shrink: 0;
 }
-.addBtn:hover { background: var(--blue-text); }
+.addBtn:hover {
+  background: var(--blue-text);
+}
 
 .removeBtn {
   font-size: 11px;
@@ -68,4 +104,7 @@
   transition: all 0.15s;
   flex-shrink: 0;
 }
-.removeBtn:hover { color: var(--red-text); background: var(--red-bg); }
+.removeBtn:hover {
+  color: var(--red-text);
+  background: var(--red-bg);
+}

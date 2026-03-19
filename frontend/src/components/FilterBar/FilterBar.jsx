@@ -30,9 +30,15 @@ const FilterBar = ({ label, filters, active, onChange }) => (
 );
 
 FilterBar.propTypes = {
-  label:    PropTypes.string,
-  filters:  PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string.isRequired, label: PropTypes.string.isRequired, icon: PropTypes.string })).isRequired,
-  active:   PropTypes.arrayOf(PropTypes.string).isRequired,
+  label: PropTypes.string,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      icon: PropTypes.string,
+    })
+  ).isRequired,
+  active: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 FilterBar.defaultProps = { label: '' };

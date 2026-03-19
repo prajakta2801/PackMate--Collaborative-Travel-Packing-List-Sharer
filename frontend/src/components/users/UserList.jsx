@@ -46,23 +46,17 @@ export default function UserList({ users, onUpdate }) {
               <input
                 type="text"
                 value={editData.name}
-                onChange={(e) =>
-                  setEditData({ ...editData, name: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, name: e.target.value })}
               />
               <input
                 type="email"
                 value={editData.email}
-                onChange={(e) =>
-                  setEditData({ ...editData, email: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, email: e.target.value })}
               />
               <input
                 type="text"
                 value={editData.homeCity}
-                onChange={(e) =>
-                  setEditData({ ...editData, homeCity: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, homeCity: e.target.value })}
               />
               <button onClick={() => handleSave(user._id)}>Save</button>
               <button onClick={() => setEditId(null)}>Cancel</button>

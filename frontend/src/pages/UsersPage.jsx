@@ -43,16 +43,14 @@ export default function UsersPage() {
           <>
             <LoginForm onLoginSuccess={handleLoginSuccess} />
             <p>
-              Don't have an account?{' '}
-              <button onClick={() => setAuthMode('signup')}>Sign Up</button>
+              Don't have an account? <button onClick={() => setAuthMode('signup')}>Sign Up</button>
             </p>
           </>
         ) : (
           <>
             <SignupForm onSignupSuccess={handleSignupSuccess} />
             <p>
-              Already have an account?{' '}
-              <button onClick={() => setAuthMode('login')}>Login</button>
+              Already have an account? <button onClick={() => setAuthMode('login')}>Login</button>
             </p>
           </>
         )}
@@ -68,11 +66,7 @@ export default function UsersPage() {
       </div>
       <h1>Users</h1>
       <UserForm onUserAdded={fetchUsers} />
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <UserList users={users} onUpdate={fetchUsers} />
-      )}
+      {loading ? <p>Loading...</p> : <UserList users={users} onUpdate={fetchUsers} />}
     </div>
   );
 }

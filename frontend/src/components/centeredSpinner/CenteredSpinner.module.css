@@ -1,8 +1,8 @@
 .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 60vh;
-    /* vertically center on screen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60vh;
+  /* vertically center on screen */
 }

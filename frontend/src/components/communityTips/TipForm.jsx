@@ -26,11 +26,7 @@ export default function TipForm({ onTipAdded }) {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Add a Tip</h2>
-      <select
-        value={tripType}
-        onChange={(e) => setTripType(e.target.value)}
-        required
-      >
+      <select value={tripType} onChange={(e) => setTripType(e.target.value)} required>
         <option value="">Select Trip Type</option>
         <option value="beach">Beach</option>
         <option value="hiking">Hiking</option>

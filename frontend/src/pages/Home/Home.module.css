@@ -13,7 +13,8 @@
   align-items: center;
 }
 
-.heroText {}
+.heroText {
+}
 
 .eyebrow {
   display: inline-block;
@@ -320,7 +321,9 @@
   border: 0.5px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .step:hover {
@@ -371,7 +374,8 @@
   padding: 72px 0;
 }
 
-.tripsSectionInner {}
+.tripsSectionInner {
+}
 
 .tripsEmpty {
   font-size: 13px;
@@ -393,7 +397,9 @@
   border-radius: var(--radius-lg);
   background: var(--bg);
   text-decoration: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .tripCard:hover {

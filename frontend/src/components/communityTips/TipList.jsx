@@ -50,9 +50,7 @@ export default function TipList({ tips, onUpdate }) {
             <div>
               <select
                 value={editData.tripType}
-                onChange={(e) =>
-                  setEditData({ ...editData, tripType: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, tripType: e.target.value })}
               >
                 <option value="beach">Beach</option>
                 <option value="hiking">Hiking</option>
@@ -63,15 +61,11 @@ export default function TipList({ tips, onUpdate }) {
               <input
                 type="text"
                 value={editData.author}
-                onChange={(e) =>
-                  setEditData({ ...editData, author: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, author: e.target.value })}
               />
               <textarea
                 value={editData.tip}
-                onChange={(e) =>
-                  setEditData({ ...editData, tip: e.target.value })
-                }
+                onChange={(e) => setEditData({ ...editData, tip: e.target.value })}
               />
               <button onClick={() => handleSave(tip._id)}>Save</button>
               <button onClick={() => setEditId(null)}>Cancel</button>
@@ -80,9 +74,7 @@ export default function TipList({ tips, onUpdate }) {
             <div>
               <strong>{tip.tripType}</strong> — {tip.author}
               <p>{tip.tip}</p>
-              <button onClick={() => handleUpvote(tip._id)}>
-                👍 {tip.upvotes}
-              </button>
+              <button onClick={() => handleUpvote(tip._id)}>👍 {tip.upvotes}</button>
               <button onClick={() => handleEdit(tip)}>Edit</button>
               <button onClick={() => handleDelete(tip._id)}>Delete</button>
             </div>

@@ -182,7 +182,7 @@ npm install
 4. **Create a `.env` file in the root directory**
 
 ```env
-MONGO_URI=mongodb+srv://rachit:rachit@cluster0.345aiwy.mongodb.net/?appName=packmate
+MONGO_URI=mongodb+srv://rachit:rachit@cluster0.345aiwy.mongodb.net/?appName=packmate  --It would be better to replace this connection string with a placeholder to avoid exposing credentials.
 DB_NAME=packmate
 PORT=5000
 JWT_SECRET=your_jwt_secret

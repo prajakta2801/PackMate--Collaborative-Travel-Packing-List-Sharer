@@ -16,6 +16,7 @@ const app = express()
 
 /**
  * -------------------------- Cors --------------------------
+ * The cors library is used here and may not be allowed for this project.
  */
 app.use(
   cors({

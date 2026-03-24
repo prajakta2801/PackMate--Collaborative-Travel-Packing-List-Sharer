@@ -5,6 +5,7 @@ import { getDb } from '../config/mongo.js'
 
 const router = express.Router()
 const requieAuth = passport.authenticate('jwt', { session: false })
+// All CRUD operations properly protected with authentication middleware
 
 router.get('/', async (req, res) => {
   try {

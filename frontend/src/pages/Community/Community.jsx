@@ -73,33 +73,35 @@ const Community = () => {
   const hasFilters = search || status || climate || tripType || luggageType;
 
   return (
-    <div className={styles.page}>
+    <main className={styles.page}>
       <div className={`${styles.inner} container`}>
-        <div className={styles.pageHeader}>
+        <header className={styles.pageHeader}>
           <div>
             <h1 className={styles.title}>Community</h1>
             <p className={styles.sub}>
               Browse trips from travellers around the world, see their packing lists and tips.
             </p>
           </div>
-          <span className={styles.totalBadge}>{total} trips</span>
-        </div>
+          <span className={styles.totalBadge} aria-live="polite">{total} trips</span>
+        </header>
 
-        <div className={styles.toolbar}>
+        <div className={styles.toolbar} role="search">
           <input
             className={styles.search}
-            type="text"
+            type="search"
             placeholder="Search by trip name or destination..."
             value={search}
+            aria-label="Search trips by name or destination"
             onChange={(e) => {
               setSearch(e.target.value);
               setPage(1);
             }}
           />
-          <div className={styles.filters}>
+          <div className={styles.filters} role="group" aria-label="Filter trips">
             <select
               className={styles.select}
               value={status}
+              aria-label="Filter by status"
               onChange={(e) => handleFilter(setStatus)(e.target.value)}
             >
               <option value="">All statuses</option>
@@ -112,6 +114,7 @@ const Community = () => {
             <select
               className={styles.select}
               value={climate}
+              aria-label="Filter by climate"
               onChange={(e) => handleFilter(setClimate)(e.target.value)}
             >
               <option value="">All climates</option>
@@ -124,6 +127,7 @@ const Community = () => {
             <select
               className={styles.select}
               value={tripType}
+              aria-label="Filter by trip type"
               onChange={(e) => handleFilter(setTripType)(e.target.value)}
             >
               <option value="">All trip types</option>
@@ -136,6 +140,7 @@ const Community = () => {
             <select
               className={styles.select}
               value={luggageType}
+              aria-label="Filter by luggage type"
               onChange={(e) => handleFilter(setLuggageType)(e.target.value)}
             >
               <option value="">All luggage</option>
@@ -146,7 +151,11 @@ const Community = () => {
               ))}
             </select>
             {hasFilters && (
-              <button className={styles.clearBtn} onClick={resetFilters}>
+              <button
+                className={styles.clearBtn}
+                onClick={resetFilters}
+                aria-label="Clear all filters"
+              >
                 Clear filters
               </button>
             )}
@@ -156,22 +165,39 @@ const Community = () => {
         {loading ? (
           <CenteredSpinner size="small" />
         ) : trips.length === 0 ? (
-          <div className={styles.empty}>
+          <div className={styles.empty} role="status" aria-live="polite">
             <p className={styles.emptyTitle}>No trips found.</p>
             <p className={styles.emptySub}>Try adjusting your filters or search term.</p>
             {hasFilters && (
-              <button className={styles.clearBtn} onClick={resetFilters}>
+              <button
+                className={styles.clearBtn}
+                onClick={resetFilters}
+                aria-label="Clear all filters"
+              >
                 Clear filters
               </button>
             )}
           </div>
         ) : (
           <>
-            <div className={styles.grid}>
+            <div
+              className={styles.grid}
+              role="list"
+              aria-label="Community trips"
+              aria-live="polite"
+            >
               {trips.map((trip) => (
-                <Link key={trip._id} to={`/community/${trip._id}`} className={styles.card}>
+                <Link
+                  key={trip._id}
+                  to={`/community/${trip._id}`}
+                  className={styles.card}
+                  role="listitem"
+                  aria-label={`View trip: ${trip.tripName} to ${trip.destination}`}
+                >
                   <div className={styles.cardTop}>
-                    <span className={styles.cardIcon}>{climateEmoji[trip.climate] || '✈️'}</span>
+                    <span className={styles.cardIcon} aria-hidden="true">
+                      {climateEmoji[trip.climate] || '✈️'}
+                    </span>
                     <span className={`${styles.badge} ${statusColor[trip.status] || ''}`}>
                       {trip.status}
                     </span>
@@ -181,8 +207,8 @@ const Community = () => {
                     {trip.destination}
                     {trip.country ? `, ${trip.country}` : ''}
                   </p>
-                  <div className={styles.cardTags}>
-                    <span className={styles.tag}>
+                  <div className={styles.cardTags} aria-label="Trip tags">
+                    <span className={styles.tag} aria-hidden="true">
                       {typeEmoji[trip.tripType]} {trip.tripType}
                     </span>
                     <span className={styles.tag}>{trip.durationDays}d</span>
@@ -199,11 +225,12 @@ const Community = () => {
             </div>
 
             {totalPages > 1 && (
-              <div className={styles.pagination}>
+              <nav className={styles.pagination} aria-label="Trip pages">
                 <button
                   className={styles.pageBtn}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
+                  aria-label="Go to previous page"
                 >
                   ← Prev
                 </button>
@@ -217,7 +244,7 @@ const Community = () => {
                     }, [])
                     .map((p, i) =>
                       p === '...' ? (
-                        <span key={`e${i}`} className={styles.ellipsis}>
+                        <span key={`e${i}`} className={styles.ellipsis} aria-hidden="true">
                           …
                         </span>
                       ) : (
@@ -225,6 +252,8 @@ const Community = () => {
                           key={p}
                           className={`${styles.pageNum} ${page === p ? styles.pageNumOn : ''}`}
                           onClick={() => setPage(p)}
+                          aria-label={`Go to page ${p}`}
+                          aria-current={page === p ? 'page' : undefined}
                         >
                           {p}
                         </button>
@@ -235,15 +264,16 @@ const Community = () => {
                   className={styles.pageBtn}
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
+                  aria-label="Go to next page"
                 >
                   Next →
                 </button>
-              </div>
+              </nav>
             )}
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

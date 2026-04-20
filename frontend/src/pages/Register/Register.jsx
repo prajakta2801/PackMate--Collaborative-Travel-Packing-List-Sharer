@@ -49,15 +49,15 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.page}>
+    <main className={styles.page}>
       <div className={styles.wrap}>
-        <div className={styles.brand}>
-          <span className={styles.brandDot} />
+        <div className={styles.brand} aria-label="PackMate">
+          <span className={styles.brandDot} aria-hidden="true" />
           PackMate
         </div>
 
-        <div className={styles.card}>
-          <h1 className={styles.title}>Create account</h1>
+        <section className={styles.card} aria-labelledby="register-title">
+          <h1 id="register-title" className={styles.title}>Create account</h1>
           <p className={styles.sub}>Free forever. Start packing smarter today.</p>
 
           <div className={styles.field}>
@@ -67,14 +67,17 @@ const Register = () => {
             <input
               id="name"
               aria-required="true"
+              aria-describedby={errors.name ? 'name-error' : undefined}
+              aria-invalid={!!errors.name}
               className={`${styles.input} ${errors.name ? styles.inputErr : ''}`}
               type="text"
               placeholder="Your Name"
               value={form.name}
+              autoComplete="name"
               onChange={(e) => set('name', e.target.value)}
             />
             {errors.name && (
-              <span className={styles.err} role="alert">
+              <span id="name-error" className={styles.err} role="alert">
                 {errors.name}
               </span>
             )}
@@ -87,14 +90,17 @@ const Register = () => {
             <input
               id="homeCity"
               aria-required="true"
+              aria-describedby={errors.homeCity ? 'homeCity-error' : undefined}
+              aria-invalid={!!errors.homeCity}
               className={`${styles.input} ${errors.homeCity ? styles.inputErr : ''}`}
               type="text"
               placeholder="New York"
               value={form.homeCity}
+              autoComplete="address-level2"
               onChange={(e) => set('homeCity', e.target.value)}
             />
             {errors.homeCity && (
-              <span className={styles.err} role="alert">
+              <span id="homeCity-error" className={styles.err} role="alert">
                 {errors.homeCity}
               </span>
             )}
@@ -107,14 +113,17 @@ const Register = () => {
             <input
               id="reg-email"
               aria-required="true"
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              aria-invalid={!!errors.email}
               className={`${styles.input} ${errors.email ? styles.inputErr : ''}`}
               type="email"
               placeholder="you@example.com"
               value={form.email}
+              autoComplete="email"
               onChange={(e) => set('email', e.target.value)}
             />
             {errors.email && (
-              <span className={styles.err} role="alert">
+              <span id="email-error" className={styles.err} role="alert">
                 {errors.email}
               </span>
             )}
@@ -127,14 +136,17 @@ const Register = () => {
             <input
               id="reg-password"
               aria-required="true"
+              aria-describedby={errors.password ? 'password-error' : undefined}
+              aria-invalid={!!errors.password}
               className={`${styles.input} ${errors.password ? styles.inputErr : ''}`}
               type="password"
               placeholder="Min. 6 characters"
               value={form.password}
+              autoComplete="new-password"
               onChange={(e) => set('password', e.target.value)}
             />
             {errors.password && (
-              <span className={styles.err} role="alert">
+              <span id="password-error" className={styles.err} role="alert">
                 {errors.password}
               </span>
             )}
@@ -147,33 +159,46 @@ const Register = () => {
             <input
               id="confirm"
               aria-required="true"
+              aria-describedby={errors.confirm ? 'confirm-error' : undefined}
+              aria-invalid={!!errors.confirm}
               className={`${styles.input} ${errors.confirm ? styles.inputErr : ''}`}
               type="password"
               placeholder="Repeat password"
               value={form.confirm}
+              autoComplete="new-password"
               onChange={(e) => set('confirm', e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
             />
             {errors.confirm && (
-              <span className={styles.err} role="alert">
+              <span id="confirm-error" className={styles.err} role="alert">
                 {errors.confirm}
               </span>
             )}
           </div>
 
-          <button className={styles.submitBtn} onClick={submit} disabled={loading}>
+          <button
+            className={styles.submitBtn}
+            onClick={submit}
+            disabled={loading}
+            aria-busy={loading}
+            aria-label={loading ? 'Creating account, please wait' : 'Create account'}
+          >
             {loading ? 'Creating account...' : 'Create account →'}
           </button>
 
           <p className={styles.switchText}>
             Already have an account?{' '}
-            <Link to="/login" className={styles.switchLink}>
+            <Link
+              to="/login"
+              className={styles.switchLink}
+              aria-label="Sign in to your existing account"
+            >
               Sign in
             </Link>
           </p>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

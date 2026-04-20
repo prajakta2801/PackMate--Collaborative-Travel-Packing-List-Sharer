@@ -30,7 +30,8 @@ The application is deployed on Vercel with MongoDB Atlas for the database.
 
 ## Video Demo
 
-https://drive.google.com/file/d/1VV0JJDofwkyRlvruE0K42L2PePZDAp9j/view?usp=sharing
+Project 3 video: https://drive.google.com/file/d/1VV0JJDofwkyRlvruE0K42L2PePZDAp9j/view?usp=sharing
+Project 4 video with iteration: https://drive.google.com/file/d/1-KkjQizN5Y-17HBKBPe_DtaRGPa88nAv/view?usp=sharing
 
 ---
 
@@ -43,6 +44,28 @@ https://docs.google.com/presentation/d/1yK7NN8nF-mYBXKhguoKBxzNFqB3UfK6LAZp7LlPA
 ## Design Document
 
 See [DESIGN_DOCUMENT.md](./DESIGN-DOCUMENT.md) for full project design including mockups and schema diagrams.
+
+---
+
+---
+
+## Usability Study Report
+
+https://docs.google.com/document/d/1zYqmI1YjjB9WD1-Cy0N2lW94rB4ANK47KrFhBKUomd4/edit?tab=t.0
+
+A moderated usability study was conducted with 6 participants across both team members (3 per member). Participants completed 4 tasks: creating an account, creating a trip, browsing community tips, and submitting a tip. The report includes session notes, post-task questionnaire results, and a prioritized list of issues and changes.
+
+---
+
+## What's New in Project 4
+
+- **Dark mode** — sun/moon toggle in the navbar, persists to localStorage, full token system with `--ink`, `--bg`, `--btn-text` variables across every page and component
+- **Keyboard accessibility** — skip link, focus rings, `aria-*` attributes, `role="tablist"` with arrow key navigation, `role="checkbox"` on packing items, screen reader announcements
+- **Confirmation modal** — replaced `window.confirm` on all delete actions with a styled in-app modal with cancel/confirm, closes on Escape or backdrop click
+- **Toast notifications** — every action (add item, remove item, save name, change status, delete trip, submit tip, copy link) shows a success or error toast
+- **Copy share link** — Share button on TripDetail copies the community URL to clipboard with a toast confirmation
+- **100% packing celebration** — animated green banner with bouncing 🎉 emoji appears when all items are checked, auto-dismisses after 4 seconds
+- **Dashboard search** — live search bar filters trips by name, destination, and country, works alongside status tabs, shows a no results state with a clear button
 
 ---
 
@@ -179,7 +202,7 @@ cd frontend
 npm install
 ```
 
-4. **Create a `.env` file in the root directory**
+4. **Create a `.env` file in the backend/ directory**
 
 ```env
 MONGO_URI=mongodb+srv://rachit:rachit@cluster0.345aiwy.mongodb.net/?appName=packmate

@@ -89,6 +89,42 @@ const TripDetail = ({ userEmail }) => {
 
   const getIndex = (itemId) => trip.items.findIndex((i) => String(i.itemId) === String(itemId));
 
+  const toggleCheckByIndex = async (index) => {
+    if (index === -1) return;
+    const newChecked = !trip.items[index].isChecked;
+    setTrip((p) => ({
+      ...p,
+      items: p.items.map((item, i) => (i === index ? { ...item, isChecked: newChecked } : item)),
+    }));
+    try {
+      await api.toggleTripItem(id, index, newChecked);
+    } catch (err) {
+      console.log('Failed to toggle item check:', err);
+      setTrip((p) => ({
+        ...p,
+        items: p.items.map((item, i) => (i === index ? { ...item, isChecked: !newChecked } : item)),
+      }));
+    }
+  };
+
+  const removeFromTripByIndex = async (index) => {
+    if (index === -1) return;
+    const removedItem = trip.items[index];
+    setTrip((p) => ({ ...p, items: p.items.filter((_, i) => i !== index) }));
+    try {
+      await api.removeTripItem(id, index);
+      toast.success('Item removed from list');
+    } catch (err) {
+      console.error('Failed to remove item from trip:', err);
+      toast.error('Failed to remove item');
+      setTrip((p) => {
+        const items = [...p.items];
+        items.splice(index, 0, removedItem);
+        return { ...p, items };
+      });
+    }
+  };
+
   const toggleCheck = async (itemId) => {
     const index = getIndex(itemId);
     if (index === -1) return;
@@ -296,7 +332,6 @@ const TripDetail = ({ userEmail }) => {
   return (
     <div className={styles.page}>
       <div className={`${styles.inner} container`}>
-        {/* ── Celebration banner ── */}
         {showCelebration && (
           <div className={styles.celebration} role="status" aria-live="polite">
             <span className={styles.celebrationEmoji}>🎉</span>
@@ -444,12 +479,12 @@ const TripDetail = ({ userEmail }) => {
                           if (ti.isCustom) {
                             return (
                               <div
-                                key={ti.itemId}
+                                key={`custom-${trip.items.indexOf(ti)}`}
                                 className={`${styles.customItem} ${ti.isChecked ? styles.customItemDone : ''}`}
                               >
                                 <button
                                   className={`${styles.chk} ${ti.isChecked ? styles.chkOn : ''}`}
-                                  onClick={() => toggleCheck(ti.itemId)}
+                                  onClick={() => toggleCheckByIndex(trip.items.indexOf(ti))}
                                 >
                                   {ti.isChecked && '✓'}
                                 </button>
@@ -457,7 +492,7 @@ const TripDetail = ({ userEmail }) => {
                                 <span className={styles.customBadge}>Custom</span>
                                 <button
                                   className={styles.rmBtn}
-                                  onClick={() => removeFromTrip(ti.itemId)}
+                                  onClick={() => removeFromTripByIndex(trip.items.indexOf(ti))}
                                 >
                                   ✕
                                 </button>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TripCard from '../../components/TripCard/TripCard';
 import styles from './Dashboard.module.css';
@@ -15,6 +15,7 @@ const Dashboard = ({ user, isAuthenticated }) => {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('all');
   const [deleteId, setDeleteId] = useState(null);
+  const [search, setSearch] = useState('');
 
   const fetchTrips = async () => {
     try {
@@ -53,7 +54,16 @@ const Dashboard = ({ user, isAuthenticated }) => {
     return acc;
   }, {});
 
-  const visibleTrips = tab === 'all' ? trips : trips.filter((t) => t.status === tab);
+  const tabFiltered = tab === 'all' ? trips : trips.filter((t) => t.status === tab);
+
+  const visibleTrips = search.trim()
+    ? tabFiltered.filter(
+        (t) =>
+          t?.tripName?.toLowerCase().includes(search.toLowerCase()) ||
+          t?.destination?.toLowerCase().includes(search.toLowerCase()) ||
+          t?.country?.toLowerCase().includes(search.toLowerCase())
+      )
+    : tabFiltered;
 
   const handleTabKeyDown = (e, t) => {
     const idx = TABS.indexOf(t);
@@ -111,6 +121,27 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </div>
         </div>
 
+        {/* ── Search ── */}
+        <div className={styles.searchRow}>
+          <input
+            className={styles.search}
+            type="text"
+            placeholder="Search trips by name, destination or country..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search your trips"
+          />
+          {search && (
+            <button
+              className={styles.clearSearch}
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
         <div className={styles.tabs} role="tablist" aria-label="Filter trips by status">
           {TABS.map((t) => (
             <button
@@ -139,14 +170,29 @@ const Dashboard = ({ user, isAuthenticated }) => {
         ) : (
           <div className={styles.empty} role="status">
             <p className={styles.emptyTitle}>
-              {tab === 'all' ? 'No trips here yet.' : `No ${tab} trips.`}
+              {search
+                ? `No trips matching "${search}"`
+                : tab === 'all'
+                  ? 'No trips here yet.'
+                  : `No ${tab} trips.`}
             </p>
             <p className={styles.emptySub}>
-              {tab === 'all'
-                ? 'Create your first trip to start building a packing list.'
-                : `You have no trips with status "${tab}".`}
+              {search
+                ? 'Try a different search term or clear the filter.'
+                : tab === 'all'
+                  ? 'Create your first trip to start building a packing list.'
+                  : `You have no trips with status "${tab}".`}
             </p>
-            {tab === 'all' && (
+            {search && (
+              <button
+                className={styles.emptyBtn}
+                style={{ marginTop: 16 }}
+                onClick={() => setSearch('')}
+              >
+                Clear search
+              </button>
+            )}
+            {!search && tab === 'all' && (
               <Link to="/create-trip" className={styles.emptyBtn} style={{ marginTop: 16 }}>
                 + New trip
               </Link>

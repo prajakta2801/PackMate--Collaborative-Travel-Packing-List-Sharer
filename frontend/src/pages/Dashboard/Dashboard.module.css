@@ -33,7 +33,7 @@
 .newBtn {
   padding: 9px 20px;
   background: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;
@@ -163,7 +163,7 @@
   display: inline-block;
   padding: 10px 20px;
   background: #111827;
-  color: #fff;
+  color: var(--btn-text);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -186,12 +186,4 @@
   outline: 2.5px solid var(--blue);
   outline-offset: 2px;
   border-radius: var(--radius-md);
-}
-
-.newBtn {
-  color: #ffffff;
-}
-
-.emptyBtn {
-  color: #ffffff;
 }

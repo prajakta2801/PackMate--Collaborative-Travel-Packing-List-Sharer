@@ -292,7 +292,7 @@
 
 .pageNumOn {
   background: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   border-color: var(--ink);
 }
 

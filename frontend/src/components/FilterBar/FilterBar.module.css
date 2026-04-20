@@ -43,14 +43,14 @@
 .pillOn {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   font-weight: 500;
 }
 
 .pillOn:hover {
   background: var(--blue-text);
   border-color: var(--blue-text);
-  color: #fff;
+  color: var(--btn-text);
 }
 
 .pill:focus-visible {

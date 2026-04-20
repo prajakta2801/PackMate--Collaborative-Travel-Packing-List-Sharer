@@ -60,7 +60,7 @@
 .ctaSolid {
   padding: 11px 24px;
   background: var(--ink);
-  color: #ffffff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 500;
@@ -222,7 +222,7 @@
   justify-content: center;
   font-size: 10px;
   font-weight: 700;
-  color: #fff;
+  color: var(--btn-text);
   flex-shrink: 0;
 }
 

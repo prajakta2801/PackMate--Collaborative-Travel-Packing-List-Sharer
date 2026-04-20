@@ -132,7 +132,7 @@
 .saveBtn {
   padding: 5px 14px;
   background: var(--blue-text);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: 500;
@@ -219,7 +219,7 @@
 .customAddBtn {
   padding: 9px 18px;
   background: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;
@@ -306,7 +306,7 @@
   justify-content: center;
   font-size: 10px;
   font-weight: 700;
-  color: #fff;
+  color: var(--btn-text);
   transition: all 0.15s;
   flex-shrink: 0;
 }
@@ -430,37 +430,37 @@
 .statusBtn {
   padding: 4px 14px;
   border-radius: 20px;
-  border: 1.5px solid #d1d5db;
+  border: 1.5px solid var(--border-mid);
   background: transparent;
-  color: #6b7280;
+  color: var(--ink-2);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .statusBtn:hover {
-  border-color: #9ca3af;
-  color: #374151;
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .statusBtnOn.status_planning {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #2563eb;
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  color: var(--blue-text);
   font-weight: 600;
 }
 
 .statusBtnOn.status_ongoing {
-  background: #fffbeb;
-  border-color: #f59e0b;
-  color: #d97706;
+  background: var(--amber-bg);
+  border-color: var(--amber);
+  color: var(--amber-text);
   font-weight: 600;
 }
 
 .statusBtnOn.status_completed {
-  background: #f0fdf4;
-  border-color: #22c55e;
-  color: #16a34a;
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green-text);
   font-weight: 600;
 }
 
@@ -474,23 +474,24 @@
 
 .addTipBtn {
   padding: 8px 16px;
-  background: #111827;
-  color: #fff;
+  background: var(--ink);
+  color: var(--btn-text);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 14px;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
+  transition: background 0.15s;
 }
 
 .addTipBtn:hover {
-  background: #374151;
+  background: var(--blue-text);
 }
 
 .tipLocked {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-3);
   font-style: italic;
   white-space: nowrap;
   flex-shrink: 0;
@@ -501,38 +502,40 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-mid);
   border-radius: 12px;
   padding: 20px;
 }
 
 .tipInput {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-mid);
   border-radius: 8px;
   font-size: 14px;
   outline: none;
-  background: #fff;
+  background: var(--bg);
+  color: var(--ink);
 }
 
 .tipInput:focus {
-  border-color: #6b7280;
+  border-color: var(--blue);
 }
 
 .tipTextarea {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-mid);
   border-radius: 8px;
   font-size: 14px;
   outline: none;
   resize: vertical;
-  background: #fff;
+  background: var(--bg);
+  color: var(--ink);
   font-family: inherit;
 }
 
 .tipTextarea:focus {
-  border-color: #6b7280;
+  border-color: var(--blue);
 }
 
 .tipTagSection {
@@ -544,7 +547,7 @@
 .tipTagLabel {
   font-size: 12px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--ink-3);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0;
@@ -559,23 +562,23 @@
 .tipTag {
   padding: 4px 12px;
   border-radius: 20px;
-  border: 1.5px solid #d1d5db;
+  border: 1.5px solid var(--border-mid);
   background: transparent;
-  color: #6b7280;
+  color: var(--ink-2);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .tipTag:hover {
-  border-color: #9ca3af;
-  color: #374151;
+  border-color: var(--blue);
+  color: var(--blue-text);
 }
 
 .tipTagOn {
-  background: #111827;
-  border-color: #111827;
-  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--btn-text);
 }
 
 .tipFormActions {
@@ -586,32 +589,38 @@
 
 .tipSubmitBtn {
   padding: 8px 20px;
-  background: #111827;
-  color: #fff;
+  background: var(--ink);
+  color: var(--btn-text);
   border: none;
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tipSubmitBtn:hover {
+  background: var(--blue-text);
 }
 
 .tipSubmitBtn:disabled {
-  background: #9ca3af;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .tipCancelBtn {
   padding: 8px 16px;
   background: transparent;
-  color: #6b7280;
-  border: 1.5px solid #d1d5db;
+  color: var(--ink-2);
+  border: 1.5px solid var(--border-mid);
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.15s;
 }
 
 .tipCancelBtn:hover {
-  border-color: #9ca3af;
-  color: #374151;
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 /* owner tip */
@@ -625,7 +634,7 @@
   display: block;
   width: 100%;
   background: #6366f1;
-  color: #fff;
+  color: var(--btn-text);
   font-size: 11px;
   font-weight: 600;
   padding: 4px 12px;

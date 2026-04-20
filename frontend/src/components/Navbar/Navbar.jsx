@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import styles from './Navbar.module.css';
 import { api } from '../../utils/api';
 import { toast } from 'sonner';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
-const Navbar = ({ user, isAuthenticated }) => {
+const Navbar = ({ user, isAuthenticated, theme, onThemeToggle }) => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -87,6 +88,8 @@ const Navbar = ({ user, isAuthenticated }) => {
               </Link>
             </>
           )}
+
+          <ThemeToggle theme={theme} onToggle={onThemeToggle} />
         </div>
 
         <button
@@ -108,6 +111,8 @@ const Navbar = ({ user, isAuthenticated }) => {
 Navbar.propTypes = {
   user: PropTypes.shape({ name: PropTypes.string }),
   isAuthenticated: PropTypes.bool.isRequired,
+  theme: PropTypes.oneOf(['light', 'dark']).isRequired,
+  onThemeToggle: PropTypes.func.isRequired,
 };
 Navbar.defaultProps = { user: null, isAuthenticated: false };
 

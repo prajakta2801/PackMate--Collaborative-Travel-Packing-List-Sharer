@@ -10,6 +10,7 @@ import Register from '../pages/Register/Register';
 import Profile from '../pages/Profile/Profile';
 import PageAccessWrapper from '../components/pageAccessWrapper/index';
 import useAuth from '../hooks/useAuth';
+import useTheme from '../hooks/useTheme';
 
 import '../styles/global.css';
 import Navbar from '../components/Navbar/Navbar';
@@ -17,6 +18,7 @@ import CommunityTripDetail from '../pages/CommunityTripDetails/CommunityTripDeta
 
 const RoutesProvider = () => {
   const { user, isAuthenticated, setIsAuthenticated } = useAuth();
+  const { theme, toggle } = useTheme();
 
   return (
     <>
@@ -24,6 +26,8 @@ const RoutesProvider = () => {
         user={user}
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
+        theme={theme}
+        onThemeToggle={toggle}
       />
       <main id="main-content" tabIndex={-1}>
         <Routes>

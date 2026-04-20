@@ -187,3 +187,20 @@
   outline-offset: 2px;
   border-radius: var(--radius-md);
 }
+
+
+.emptyBtn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--ink);
+  color: var(--btn-text);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: 16px;
+}
+
+.emptyBtn:hover {
+  background: var(--blue-text);
+}

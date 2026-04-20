@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import PropTypes from 'prop-types';
 import TripCard from '../../components/TripCard/TripCard';
 import styles from './Dashboard.module.css';
 import { api } from '../../utils/api';
 import CenteredSpinner from '../../components/centeredSpinner/index';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 
 const TABS = ['all', 'planning', 'ongoing', 'completed'];
 
@@ -12,6 +14,7 @@ const Dashboard = ({ user, isAuthenticated }) => {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('all');
+  const [deleteId, setDeleteId] = useState(null);
 
   const fetchTrips = async () => {
     try {
@@ -28,13 +31,20 @@ const Dashboard = ({ user, isAuthenticated }) => {
     fetchTrips();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this trip?')) return;
+  const handleDelete = (id) => {
+    setDeleteId(id);
+  };
+
+  const confirmDelete = async () => {
     try {
-      await api.deleteTrip(id);
-      setTrips((p) => p.filter((t) => t._id !== id));
+      await api.deleteTrip(deleteId);
+      setTrips((p) => p.filter((t) => t._id !== deleteId));
+      toast.success('Trip deleted');
     } catch (error) {
       console.error('Failed to delete trip:', error);
+      toast.error('Failed to delete trip');
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -144,6 +154,17 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </div>
         )}
       </div>
+
+      {deleteId && (
+        <ConfirmModal
+          title="Delete this trip?"
+          message="This trip and all its packing items will be permanently deleted. This cannot be undone."
+          confirmLabel="Delete trip"
+          danger
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteId(null)}
+        />
+      )}
     </div>
   );
 };

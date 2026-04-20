@@ -76,7 +76,7 @@ const Home = () => {
   return (
     <main>
       {/* ── Hero ── */}
-      <section className={styles.hero}>
+      <section className={styles.hero} aria-label="Hero section">
         <div className={`${styles.heroInner} container`}>
           <div className={styles.heroText}>
             <span className={styles.eyebrow}>Free · Open source · Community-powered</span>
@@ -90,16 +90,16 @@ const Home = () => {
               actually bring — curated and upvoted by the community.
             </p>
             <div className={styles.heroCtas}>
-              <Link to="/register" className={styles.ctaSolid}>
+              <Link to="/register" className={styles.ctaSolid} aria-label="Start packing for free">
                 Start packing free
               </Link>
-              <Link to="/community" className={styles.ctaGhost}>
+              <Link to="/community" className={styles.ctaGhost} aria-label="Browse community trips">
                 Browse community trips →
               </Link>
             </div>
           </div>
 
-          <div className={styles.heroCard}>
+          <div className={styles.heroCard} role="img" aria-label="Sample packing list preview">
             <div className={styles.heroCardHeader}>
               <div className={styles.heroCardLeft}>
                 <div className={styles.heroCardIcon}>❄️</div>
@@ -115,12 +115,19 @@ const Home = () => {
                 <span className={styles.heroProgressLabel}>Packing progress</span>
                 <span className={styles.heroProgressPct}>40%</span>
               </div>
-              <div className={styles.heroTrack}>
+              <div
+                className={styles.heroTrack}
+                role="progressbar"
+                aria-valuenow={40}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Packing progress 40%"
+              >
                 <div className={styles.heroFill} />
               </div>
               <p className={styles.heroProgressSub}>2 of 5 items packed</p>
             </div>
-            <div className={styles.heroItems}>
+            <div className={styles.heroItems} role="list" aria-label="Sample packing items">
               {[
                 { name: 'Thermal Underlayer', done: true },
                 { name: 'Winter Coat', done: true },
@@ -130,6 +137,9 @@ const Home = () => {
                 <div
                   key={it.name}
                   className={`${styles.heroItem} ${it.done ? styles.heroItemDone : ''}`}
+                  role="checkbox"
+                  aria-checked={it.done}
+                  aria-label={it.name}
                 >
                   <span className={`${styles.heroCheck} ${it.done ? styles.heroCheckOn : ''}`}>
                     {it.done && '✓'}
@@ -143,7 +153,7 @@ const Home = () => {
       </section>
 
       {/* ── Stats bar ── */}
-      <div className={styles.statsBar}>
+      <div className={styles.statsBar} aria-label="App statistics">
         <div className={`${styles.statsInner} container`}>
           {[
             { n: '2,500+', l: 'Trips created' },
@@ -160,10 +170,10 @@ const Home = () => {
       </div>
 
       {/* ── How it works ── */}
-      <section className={styles.section}>
+      <section className={styles.section} aria-labelledby="how-it-works-title">
         <div className={`${styles.sectionInner} container`}>
           <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>How it works</h2>
+            <h2 id="how-it-works-title" className={styles.sectionTitle}>How it works</h2>
             <p className={styles.sectionSub}>Three steps from blank slate to fully packed.</p>
           </div>
           <div className={styles.steps}>
@@ -179,14 +189,14 @@ const Home = () => {
       </section>
 
       {/* ── Recent community trips ── */}
-      <section className={styles.tripsSection}>
+      <section className={styles.tripsSection} aria-labelledby="community-trips-title">
         <div className={`${styles.tripsSectionInner} container`}>
           <div className={styles.sectionHead}>
             <div>
-              <h2 className={styles.sectionTitle}>Recent community trips</h2>
+              <h2 id="community-trips-title" className={styles.sectionTitle}>Recent community trips</h2>
               <p className={styles.sectionSub}>See what other travellers are packing for.</p>
             </div>
-            <Link to="/community" className={styles.seeAll}>
+            <Link to="/community" className={styles.seeAll} aria-label="Browse all community trips">
               Browse all →
             </Link>
           </div>
@@ -194,11 +204,17 @@ const Home = () => {
           {trips.length === 0 ? (
             <p className={styles.tripsEmpty}>No trips yet. Be the first to create one!</p>
           ) : (
-            <div className={styles.tripsGrid}>
+            <div className={styles.tripsGrid} role="list" aria-label="Community trips">
               {trips.map((trip) => (
-                <Link key={trip._id} to={`/community/${trip._id}`} className={styles.tripCard}>
+                <Link
+                  key={trip._id}
+                  to={`/community/${trip._id}`}
+                  className={styles.tripCard}
+                  role="listitem"
+                  aria-label={`View trip: ${trip.tripName} to ${trip.destination}`}
+                >
                   <div className={styles.tripCardTop}>
-                    <span className={styles.tripCardIcon}>
+                    <span className={styles.tripCardIcon} aria-hidden="true">
                       {climateEmoji[trip.climate] || '✈️'}
                     </span>
                     <span className={`${styles.badge} ${statusColor[trip.status] || ''}`}>
@@ -210,7 +226,7 @@ const Home = () => {
                     {trip.destination}
                     {trip.country ? `, ${trip.country}` : ''}
                   </p>
-                  <div className={styles.tripCardTags}>
+                  <div className={styles.tripCardTags} aria-label="Trip details">
                     <span className={styles.tag}>
                       {typeEmoji[trip.tripType]} {trip.tripType}
                     </span>
@@ -231,15 +247,15 @@ const Home = () => {
       </section>
 
       {/* ── Who it's for ── */}
-      <section className={styles.section}>
+      <section className={styles.section} aria-labelledby="personas-title">
         <div className={`${styles.sectionInner} container`}>
           <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Built for every traveler</h2>
+            <h2 id="personas-title" className={styles.sectionTitle}>Built for every traveler</h2>
           </div>
-          <div className={styles.personas}>
+          <div className={styles.personas} role="list" aria-label="User personas">
             {personas.map((p) => (
-              <div key={p.name} className={styles.personaCard}>
-                <span className={styles.personaEmoji}>{p.emoji}</span>
+              <div key={p.name} className={styles.personaCard} role="listitem">
+                <span className={styles.personaEmoji} aria-hidden="true">{p.emoji}</span>
                 <div>
                   <p className={styles.personaName}>{p.name}</p>
                   <p className={styles.personaRole}>{p.role}</p>
@@ -252,11 +268,11 @@ const Home = () => {
       </section>
 
       {/* ── CTA ── */}
-      <section className={styles.ctaSection}>
+      <section className={styles.ctaSection} aria-labelledby="cta-title">
         <div className={`${styles.ctaInner} container`}>
-          <h2 className={styles.ctaTitle}>Ready to pack smarter?</h2>
+          <h2 id="cta-title" className={styles.ctaTitle}>Ready to pack smarter?</h2>
           <p className={styles.ctaSub}>Free forever. No credit card required.</p>
-          <Link to="/register" className={styles.ctaSolid}>
+          <Link to="/register" className={styles.ctaSolid} aria-label="Create your first trip">
             Create your first trip →
           </Link>
         </div>

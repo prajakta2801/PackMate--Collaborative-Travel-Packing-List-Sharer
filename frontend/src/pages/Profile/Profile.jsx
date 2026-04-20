@@ -61,26 +61,33 @@ const Profile = ({ user, isAuthenticated }) => {
 
   if (!isAuthenticated) {
     return (
-      <div className={styles.page}>
+      <main className={styles.page}>
         <div className={`${styles.inner} container`}>
           <p className={styles.notAuth}>Please sign in to view your profile.</p>
         </div>
-      </div>
+      </main>
     );
   }
 
   if (loading) return <CenteredSpinner size="small" />;
 
   return (
-    <div className={styles.page}>
+    <main className={styles.page}>
       <div className={`${styles.inner} container`}>
-        <div className={styles.header}>
-          <div className={styles.avatar}>{userInfo.name[0].toUpperCase()}</div>
+        <header className={styles.header}>
+          <div
+            className={styles.avatar}
+            aria-hidden="true"
+          >
+            {userInfo.name[0].toUpperCase()}
+          </div>
           <div className={styles.info}>
             <h1 className={styles.name}>{userInfo.name}</h1>
-            {userInfo.homeCity && <p className={styles.email}>{userInfo.homeCity}</p>}
+            {userInfo.homeCity && (
+              <p className={styles.email}>{userInfo.homeCity}</p>
+            )}
             <p className={styles.email}>{userInfo.email}</p>
-            <div className={styles.pills}>
+            <div className={styles.pills} aria-label="Profile statistics">
               <span className={styles.pill}>{trips.length} trips</span>
               <span className={`${styles.pill} ${styles.pillBlue}`}>
                 {myTips.length} tips shared
@@ -91,20 +98,42 @@ const Profile = ({ user, isAuthenticated }) => {
             </div>
           </div>
           <div className={styles.headerActions}>
-            <button className={styles.editBtn} onClick={() => setEditing(!editing)}>
+            <button
+              className={styles.editBtn}
+              onClick={() => setEditing(!editing)}
+              aria-expanded={editing}
+              aria-controls="edit-profile-form"
+              aria-label={editing ? 'Cancel editing profile' : 'Edit profile'}
+            >
               {editing ? 'Cancel' : '✎ Edit'}
             </button>
-            <button className={styles.logoutBtn} onClick={handleLogout}>
+            <button
+              className={styles.logoutBtn}
+              onClick={handleLogout}
+              aria-label="Log out of your account"
+            >
               Log out
             </button>
           </div>
-        </div>
+        </header>
 
-        {saved && <div className={styles.savedBanner}>Profile updated</div>}
+        {saved && (
+          <div
+            className={styles.savedBanner}
+            role="status"
+            aria-live="polite"
+          >
+            Profile updated
+          </div>
+        )}
 
         {editing && (
-          <div className={styles.editCard}>
-            <h2 className={styles.sectionTitle}>Edit profile</h2>
+          <section
+            id="edit-profile-form"
+            className={styles.editCard}
+            aria-labelledby="edit-profile-title"
+          >
+            <h2 id="edit-profile-title" className={styles.sectionTitle}>Edit profile</h2>
             <div className={styles.editRow}>
               <div className={styles.field}>
                 <label className={styles.label} htmlFor="p-name">
@@ -115,6 +144,8 @@ const Profile = ({ user, isAuthenticated }) => {
                   className={styles.input}
                   type="text"
                   value={form.name}
+                  autoComplete="name"
+                  aria-required="true"
                   onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
                 />
               </div>
@@ -127,25 +158,30 @@ const Profile = ({ user, isAuthenticated }) => {
                   className={styles.input}
                   type="text"
                   value={form.homeCity}
+                  autoComplete="address-level2"
                   onChange={(e) => setForm((p) => ({ ...p, homeCity: e.target.value }))}
                 />
               </div>
             </div>
-            <button className={styles.saveBtn} onClick={handleSave}>
+            <button
+              className={styles.saveBtn}
+              onClick={handleSave}
+              aria-label="Save profile changes"
+            >
               Save changes
             </button>
-          </div>
+          </section>
         )}
 
         {activeTrips.length > 0 && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Currently packing for</h2>
-            <div className={styles.activeTripsGrid}>
+          <section className={styles.section} aria-labelledby="active-trips-title">
+            <h2 id="active-trips-title" className={styles.sectionTitle}>Currently packing for</h2>
+            <ul className={styles.activeTripsGrid} aria-label="Active trips">
               {activeTrips.map((trip) => (
-                <div key={trip._id} className={styles.activeTripCard}>
-                  <div className={styles.activeTripIcon}>
+                <li key={trip._id} className={styles.activeTripCard}>
+                  <span className={styles.activeTripIcon} aria-hidden="true">
                     {trip.climate === 'cold' ? '❄️' : trip.climate === 'tropical' ? '🌴' : '☀️'}
-                  </div>
+                  </span>
                   <div className={styles.activeTripInfo}>
                     <p className={styles.activeTripName}>{trip.tripName}</p>
                     <p className={styles.activeTripMeta}>
@@ -157,20 +193,20 @@ const Profile = ({ user, isAuthenticated }) => {
                       packed
                     </p>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </section>
         )}
 
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>My submitted tips</h2>
+        <section className={styles.section} aria-labelledby="my-tips-title">
+          <h2 id="my-tips-title" className={styles.sectionTitle}>My submitted tips</h2>
           {myTips.length === 0 ? (
             <p className={styles.emptyText}>
               You haven&apos;t shared any tips yet. Complete a trip and share what you learned!
             </p>
           ) : (
-            <div className={styles.tipsBox}>
+            <div className={styles.tipsBox} role="list" aria-label="My submitted tips">
               {myTips.map((tip) => (
                 <TipCard
                   key={tip._id}
@@ -182,9 +218,9 @@ const Profile = ({ user, isAuthenticated }) => {
               ))}
             </div>
           )}
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

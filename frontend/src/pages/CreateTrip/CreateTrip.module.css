@@ -53,12 +53,12 @@
 .stepActive {
   border-color: var(--blue);
   background: var(--blue);
-  color: #fff;
+  color: var(--btn-text);
 }
 .stepDone {
   border-color: var(--green);
   background: var(--green);
-  color: #fff;
+  color: var(--btn-text);
 }
 .stepLabel {
   font-size: 12px;
@@ -282,7 +282,7 @@
 .nextBtn {
   padding: 9px 22px;
   background: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;
@@ -294,7 +294,7 @@
 .submitBtn {
   padding: 9px 22px;
   background: var(--green-text);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;

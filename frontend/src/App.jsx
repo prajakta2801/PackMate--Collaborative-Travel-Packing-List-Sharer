@@ -1,4 +1,3 @@
-// src/App.js
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import './styles/global.css';

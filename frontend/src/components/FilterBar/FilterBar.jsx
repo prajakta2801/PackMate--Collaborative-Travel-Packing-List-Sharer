@@ -1,14 +1,22 @@
-// src/components/FilterBar/FilterBar.js
 import PropTypes from 'prop-types';
 import styles from './FilterBar.module.css';
 
 const FilterBar = ({ label, filters, active, onChange }) => (
-  <div className={styles.wrap}>
-    {label && <span className={styles.label}>{label}</span>}
-    <div className={styles.pills}>
+  <div className={styles.wrap} role="group" aria-label={label || 'Filters'}>
+    {label && (
+      <span className={styles.label} id={`filterbar-${label}`}>
+        {label}
+      </span>
+    )}
+    <div
+      className={styles.pills}
+      role="group"
+      aria-labelledby={label ? `filterbar-${label}` : undefined}
+    >
       <button
         className={`${styles.pill} ${active.length === 0 ? styles.pillOn : ''}`}
         onClick={() => onChange([])}
+        aria-pressed={active.length === 0}
       >
         All
       </button>
@@ -20,8 +28,9 @@ const FilterBar = ({ label, filters, active, onChange }) => (
             if (active.includes(f.value)) onChange(active.filter((v) => v !== f.value));
             else onChange([...active, f.value]);
           }}
+          aria-pressed={active.includes(f.value)}
         >
-          {f.icon && <span>{f.icon} </span>}
+          {f.icon && <span aria-hidden="true">{f.icon} </span>}
           {f.label}
         </button>
       ))}

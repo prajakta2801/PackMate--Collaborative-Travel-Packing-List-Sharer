@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TripCard from '../../components/TripCard/TripCard';
 import styles from './Dashboard.module.css';
 import { api } from '../../utils/api';
 import CenteredSpinner from '../../components/centeredSpinner/index';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 
 const TABS = ['all', 'planning', 'ongoing', 'completed'];
 
@@ -12,6 +14,8 @@ const Dashboard = ({ user, isAuthenticated }) => {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('all');
+  const [deleteId, setDeleteId] = useState(null);
+  const [search, setSearch] = useState('');
 
   const fetchTrips = async () => {
     try {
@@ -28,13 +32,20 @@ const Dashboard = ({ user, isAuthenticated }) => {
     fetchTrips();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this trip?')) return;
+  const handleDelete = (id) => {
+    setDeleteId(id);
+  };
+
+  const confirmDelete = async () => {
     try {
-      await api.deleteTrip(id);
-      setTrips((p) => p.filter((t) => t._id !== id));
+      await api.deleteTrip(deleteId);
+      setTrips((p) => p.filter((t) => t._id !== deleteId));
+      toast.success('Trip deleted');
     } catch (error) {
       console.error('Failed to delete trip:', error);
+      toast.error('Failed to delete trip');
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -43,7 +54,36 @@ const Dashboard = ({ user, isAuthenticated }) => {
     return acc;
   }, {});
 
-  const visibleTrips = tab === 'all' ? trips : trips.filter((t) => t.status === tab);
+  const tabFiltered = tab === 'all' ? trips : trips.filter((t) => t.status === tab);
+
+  const visibleTrips = search.trim()
+    ? tabFiltered.filter(
+        (t) =>
+          t?.tripName?.toLowerCase().includes(search.toLowerCase()) ||
+          t?.destination?.toLowerCase().includes(search.toLowerCase()) ||
+          t?.country?.toLowerCase().includes(search.toLowerCase())
+      )
+    : tabFiltered;
+
+  const handleTabKeyDown = (e, t) => {
+    const idx = TABS.indexOf(t);
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setTab(TABS[(idx + 1) % TABS.length]);
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setTab(TABS[(idx - 1 + TABS.length) % TABS.length]);
+    }
+    if (e.key === 'Home') {
+      e.preventDefault();
+      setTab(TABS[0]);
+    }
+    if (e.key === 'End') {
+      e.preventDefault();
+      setTab(TABS[TABS.length - 1]);
+    }
+  };
 
   if (loading) return <CenteredSpinner size="small" />;
 
@@ -62,7 +102,7 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </Link>
         </div>
 
-        <div className={styles.summary}>
+        <div className={styles.summary} aria-label="Trip summary">
           <div className={styles.summCard}>
             <span className={styles.summN}>{trips.length}</span>
             <span className={styles.summL}>Total</span>
@@ -81,36 +121,78 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </div>
         </div>
 
-        <div className={styles.tabs}>
+        {/* ── Search ── */}
+        <div className={styles.searchRow}>
+          <input
+            className={styles.search}
+            type="text"
+            placeholder="Search trips by name, destination or country..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search your trips"
+          />
+          {search && (
+            <button
+              className={styles.clearSearch}
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        <div className={styles.tabs} role="tablist" aria-label="Filter trips by status">
           {TABS.map((t) => (
             <button
               key={t}
+              role="tab"
               className={`${styles.tab} ${tab === t ? styles.tabOn : ''}`}
               onClick={() => setTab(t)}
+              onKeyDown={(e) => handleTabKeyDown(e, t)}
+              aria-selected={tab === t}
+              tabIndex={tab === t ? 0 : -1}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
-              <span className={styles.tabCount}>{counts[t]}</span>
+              <span className={styles.tabCount} aria-hidden="true">
+                {counts[t]}
+              </span>
             </button>
           ))}
         </div>
 
         {visibleTrips.length > 0 ? (
-          <div className={styles.list}>
+          <div className={styles.list} role="list" aria-label="Trips">
             {visibleTrips.map((trip, i) => (
               <TripCard key={trip._id} trip={trip} index={i} onDelete={handleDelete} />
             ))}
           </div>
         ) : (
-          <div className={styles.empty}>
+          <div className={styles.empty} role="status">
             <p className={styles.emptyTitle}>
-              {tab === 'all' ? 'No trips here yet.' : `No ${tab} trips.`}
+              {search
+                ? `No trips matching "${search}"`
+                : tab === 'all'
+                  ? 'No trips here yet.'
+                  : `No ${tab} trips.`}
             </p>
             <p className={styles.emptySub}>
-              {tab === 'all'
-                ? 'Create your first trip to start building a packing list.'
-                : `You have no trips with status "${tab}".`}
+              {search
+                ? 'Try a different search term or clear the filter.'
+                : tab === 'all'
+                  ? 'Create your first trip to start building a packing list.'
+                  : `You have no trips with status "${tab}".`}
             </p>
-            {tab === 'all' && (
+            {search && (
+              <button
+                className={styles.emptyBtn}
+                style={{ marginTop: 16 }}
+                onClick={() => setSearch('')}
+              >
+                Clear search
+              </button>
+            )}
+            {!search && tab === 'all' && (
               <Link to="/create-trip" className={styles.emptyBtn} style={{ marginTop: 16 }}>
                 + New trip
               </Link>
@@ -118,6 +200,17 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </div>
         )}
       </div>
+
+      {deleteId && (
+        <ConfirmModal
+          title="Delete this trip?"
+          message="This trip and all its packing items will be permanently deleted. This cannot be undone."
+          confirmLabel="Delete trip"
+          danger
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteId(null)}
+        />
+      )}
     </div>
   );
 };

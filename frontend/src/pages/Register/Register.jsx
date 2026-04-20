@@ -1,4 +1,3 @@
-// src/pages/Register/Register.js
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
@@ -67,27 +66,38 @@ const Register = () => {
             </label>
             <input
               id="name"
+              aria-required="true"
               className={`${styles.input} ${errors.name ? styles.inputErr : ''}`}
               type="text"
               placeholder="Your Name"
               value={form.name}
               onChange={(e) => set('name', e.target.value)}
             />
-            {errors.name && <span className={styles.err}>{errors.name}</span>}
+            {errors.name && (
+              <span className={styles.err} role="alert">
+                {errors.name}
+              </span>
+            )}
           </div>
+
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="name">
+            <label className={styles.label} htmlFor="homeCity">
               Home City
             </label>
             <input
-              id="name"
+              id="homeCity"
+              aria-required="true"
               className={`${styles.input} ${errors.homeCity ? styles.inputErr : ''}`}
               type="text"
               placeholder="New York"
               value={form.homeCity}
               onChange={(e) => set('homeCity', e.target.value)}
             />
-            {errors.homeCity && <span className={styles.err}>{errors.homeCity}</span>}
+            {errors.homeCity && (
+              <span className={styles.err} role="alert">
+                {errors.homeCity}
+              </span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -96,13 +106,18 @@ const Register = () => {
             </label>
             <input
               id="reg-email"
+              aria-required="true"
               className={`${styles.input} ${errors.email ? styles.inputErr : ''}`}
               type="email"
               placeholder="you@example.com"
               value={form.email}
               onChange={(e) => set('email', e.target.value)}
             />
-            {errors.email && <span className={styles.err}>{errors.email}</span>}
+            {errors.email && (
+              <span className={styles.err} role="alert">
+                {errors.email}
+              </span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -111,13 +126,18 @@ const Register = () => {
             </label>
             <input
               id="reg-password"
+              aria-required="true"
               className={`${styles.input} ${errors.password ? styles.inputErr : ''}`}
               type="password"
               placeholder="Min. 6 characters"
               value={form.password}
               onChange={(e) => set('password', e.target.value)}
             />
-            {errors.password && <span className={styles.err}>{errors.password}</span>}
+            {errors.password && (
+              <span className={styles.err} role="alert">
+                {errors.password}
+              </span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -126,6 +146,7 @@ const Register = () => {
             </label>
             <input
               id="confirm"
+              aria-required="true"
               className={`${styles.input} ${errors.confirm ? styles.inputErr : ''}`}
               type="password"
               placeholder="Repeat password"
@@ -133,7 +154,11 @@ const Register = () => {
               onChange={(e) => set('confirm', e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
             />
-            {errors.confirm && <span className={styles.err}>{errors.confirm}</span>}
+            {errors.confirm && (
+              <span className={styles.err} role="alert">
+                {errors.confirm}
+              </span>
+            )}
           </div>
 
           <button className={styles.submitBtn} onClick={submit} disabled={loading}>

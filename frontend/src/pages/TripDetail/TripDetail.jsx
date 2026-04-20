@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { categories, climateEmoji, tripTypes, climates } from '../../utils/constants';
 import PackingItem from '../../components/PackingItem/PackingItem';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import TipCard from '../../components/TipCard/TipCard';
 import FilterBar from '../../components/FilterBar/FilterBar';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import styles from './TripDetail.module.css';
 import { api } from '../../utils/api';
 import CenteredSpinner from '../../components/centeredSpinner';
@@ -35,6 +37,9 @@ const TripDetail = ({ userEmail }) => {
     climateTags: [],
   });
   const [submittingTip, setSubmittingTip] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const prevPctRef = useRef(0);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -50,6 +55,13 @@ const TripDetail = ({ userEmail }) => {
         setCatalogItems(itemsData);
         setTips(tipsData);
         setUpvoted(tipsData.filter((t) => t.upvotedBy?.includes(userEmail)).map((t) => t._id));
+        const initialPct =
+          tripData.items.length > 0
+            ? Math.round(
+                (tripData.items.filter((i) => i.isChecked).length / tripData.items.length) * 100
+              )
+            : 0;
+        prevPctRef.current = initialPct;
       } catch (err) {
         console.error('Failed to load trip data:', err);
       } finally {
@@ -64,6 +76,17 @@ const TripDetail = ({ userEmail }) => {
     (item) => catFilter.length === 0 || catFilter.includes(item.category)
   );
   const checked = trip?.items.filter((i) => i.isChecked).length ?? 0;
+  const total = trip?.items.length ?? 0;
+  const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+  useEffect(() => {
+    if (pct === 100 && prevPctRef.current < 100 && total > 0) {
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 4000);
+    }
+    prevPctRef.current = pct;
+  }, [pct, total]);
+
   const getIndex = (itemId) => trip.items.findIndex((i) => String(i.itemId) === String(itemId));
 
   const toggleCheck = async (itemId) => {
@@ -91,8 +114,10 @@ const TripDetail = ({ userEmail }) => {
     setTrip((p) => ({ ...p, items: [...p.items, newItem] }));
     try {
       await api.addTripItem(id, { itemId: item._id, isCustom: false, customName: '' });
+      toast.success(`${item.name} added to your list`);
     } catch (err) {
       console.error('Failed to add item to trip:', err);
+      toast.error('Failed to add item');
       setTrip((p) => ({
         ...p,
         items: p.items.filter((i) => String(i.itemId) !== String(item._id)),
@@ -107,8 +132,10 @@ const TripDetail = ({ userEmail }) => {
     setTrip((p) => ({ ...p, items: p.items.filter((_, i) => i !== index) }));
     try {
       await api.removeTripItem(id, index);
+      toast.success('Item removed from list');
     } catch (err) {
       console.error('Failed to remove item from trip:', err);
+      toast.error('Failed to remove item');
       setTrip((p) => {
         const items = [...p.items];
         items.splice(index, 0, removedItem);
@@ -126,8 +153,10 @@ const TripDetail = ({ userEmail }) => {
     setCustomName('');
     try {
       await api.addTripItem(id, { itemId: null, isCustom: true, customName: name });
+      toast.success(`"${name}" added to your list`);
     } catch (err) {
       console.error('Failed to add custom item:', err);
+      toast.error('Failed to add item');
       setTrip((p) => ({ ...p, items: p.items.filter((i) => i.itemId !== tempId) }));
       setCustomName(name);
     }
@@ -141,8 +170,10 @@ const TripDetail = ({ userEmail }) => {
     setEditing(false);
     try {
       await api.updateTrip(id, { tripName: name });
+      toast.success('Trip name updated');
     } catch (err) {
       console.error('Failed to update trip name:', err);
+      toast.error('Failed to update trip name');
       setTrip((p) => ({ ...p, tripName: prevName }));
       setEditName(prevName);
     }
@@ -153,20 +184,36 @@ const TripDetail = ({ userEmail }) => {
     setTrip((p) => ({ ...p, status: newStatus }));
     try {
       await api.updateTrip(id, { status: newStatus });
+      toast.success(`Status changed to ${newStatus}`);
     } catch (err) {
       console.error('Failed to update trip status:', err);
+      toast.error('Failed to update status');
       setTrip((p) => ({ ...p, status: prevStatus }));
     }
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this trip?')) return;
+    setShowDeleteModal(false);
     try {
       await api.deleteTrip(id);
+      toast.success('Trip deleted');
       navigate('/dashboard');
     } catch (err) {
       console.error('Failed to delete trip:', err);
+      toast.error('Failed to delete trip');
     }
+  };
+
+  const handleCopyLink = () => {
+    const url = `${window.location.origin}/community/${id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        toast.success('Link copied to clipboard!');
+      })
+      .catch(() => {
+        toast.error('Could not copy link');
+      });
   };
 
   const handleUpvote = async (tipId) => {
@@ -224,8 +271,10 @@ const TripDetail = ({ userEmail }) => {
       setTips(tipsData);
       setUpvoted(tipsData.filter((t) => t.upvotedBy?.includes(userEmail)).map((t) => t._id));
       setShowTipForm(false);
+      toast.success('Tip shared with the community!');
     } catch (err) {
       console.error('Failed to submit tip:', err);
+      toast.error('Failed to submit tip');
     } finally {
       setSubmittingTip(false);
     }
@@ -247,6 +296,17 @@ const TripDetail = ({ userEmail }) => {
   return (
     <div className={styles.page}>
       <div className={`${styles.inner} container`}>
+        {/* ── Celebration banner ── */}
+        {showCelebration && (
+          <div className={styles.celebration} role="status" aria-live="polite">
+            <span className={styles.celebrationEmoji}>🎉</span>
+            <div>
+              <p className={styles.celebrationTitle}>All packed!</p>
+              <p className={styles.celebrationSub}>You&apos;re ready for {trip.tripName}.</p>
+            </div>
+          </div>
+        )}
+
         <div className={styles.breadcrumb}>
           <Link to="/dashboard" className={styles.bcLink}>
             My trips
@@ -290,7 +350,14 @@ const TripDetail = ({ userEmail }) => {
                   >
                     Edit
                   </button>
-                  <button className={styles.deleteBtn} onClick={handleDelete}>
+                  <button
+                    className={styles.shareBtn}
+                    onClick={handleCopyLink}
+                    title="Copy community link"
+                  >
+                    Share
+                  </button>
+                  <button className={styles.deleteBtn} onClick={() => setShowDeleteModal(true)}>
                     Delete
                   </button>
                 </div>
@@ -543,12 +610,24 @@ const TripDetail = ({ userEmail }) => {
           </div>
         )}
       </div>
+
+      {showDeleteModal && (
+        <ConfirmModal
+          title="Delete this trip?"
+          message={`"${trip.tripName}" and all its packing items will be permanently deleted. This cannot be undone.`}
+          confirmLabel="Delete trip"
+          danger
+          onConfirm={handleDelete}
+          onCancel={() => setShowDeleteModal(false)}
+        />
+      )}
     </div>
   );
 };
 
 TripDetail.propTypes = {
-  useEmail: PropTypes.string.isRequired,
+  userEmail: PropTypes.string,
 };
+TripDetail.defaultProps = { userEmail: '' };
 
 export default TripDetail;

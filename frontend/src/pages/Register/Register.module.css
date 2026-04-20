@@ -7,6 +7,7 @@
   padding: 40px 24px;
   background: var(--bg-soft);
 }
+
 .wrap {
   width: 100%;
   max-width: 400px;
@@ -15,6 +16,7 @@
   align-items: center;
   gap: 16px;
 }
+
 .brand {
   display: flex;
   align-items: center;
@@ -26,6 +28,7 @@
   color: var(--ink);
   margin-bottom: 4px;
 }
+
 .brandDot {
   width: 8px;
   height: 8px;
@@ -33,6 +36,7 @@
   background: var(--green);
   flex-shrink: 0;
 }
+
 .card {
   width: 100%;
   background: var(--bg);
@@ -44,21 +48,25 @@
   gap: 14px;
   box-shadow: var(--shadow-sm);
 }
+
 .title {
   font-size: 1.7rem;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
+
 .sub {
   font-size: 13px;
   color: var(--ink-3);
   margin-top: -4px;
 }
+
 .field {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
+
 .label {
   font-size: 11px;
   font-weight: 500;
@@ -66,6 +74,7 @@
   letter-spacing: 0.06em;
   color: var(--ink-2);
 }
+
 .input {
   padding: 10px 13px;
   border: 0.5px solid var(--border-mid);
@@ -78,24 +87,28 @@
     box-shadow 0.15s;
   width: 100%;
 }
+
 .input:focus {
   outline: none;
   border-color: var(--green);
   background: var(--bg);
   box-shadow: 0 0 0 3px var(--green-bg);
 }
+
 .inputErr {
   border-color: var(--red-text);
 }
+
 .err {
   font-size: 11px;
   color: var(--red-text);
   font-weight: 500;
 }
+
 .submitBtn {
   padding: 11px;
   background: var(--green-text);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 500;
@@ -104,22 +117,60 @@
   border: none;
   width: 100%;
 }
+
 .submitBtn:hover:not(:disabled) {
   background: var(--ink);
 }
+
 .submitBtn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
+
 .switchText {
   text-align: center;
   font-size: 13px;
   color: var(--ink-3);
 }
+
 .switchLink {
   color: var(--blue-text);
   font-weight: 500;
 }
+
 .switchLink:hover {
   text-decoration: underline;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+  background: var(--bg);
+}
+
+.submitBtn:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+.switchLink:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+  background: var(--bg);
+}
+
+
+.switchLink:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 2px;
 }

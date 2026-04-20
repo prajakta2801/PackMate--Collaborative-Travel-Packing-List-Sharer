@@ -1,0 +1,115 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: var(--bg);
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: var(--shadow-md);
+    animation: slideUp 0.15s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+}
+
+.message {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cancelBtn {
+    padding: 8px 18px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-2);
+    transition: all 0.15s;
+}
+
+.cancelBtn:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+}
+
+.confirmPrimary {
+    padding: 8px 18px;
+    background: var(--blue-text);
+    color: var(--btn-text);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.confirmPrimary:hover {
+    background: var(--ink);
+}
+
+.confirmDanger {
+    padding: 8px 18px;
+    background: var(--red-text);
+    color: #ffffff;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.confirmDanger:hover {
+    background: #a93226;
+}
+
+.cancelBtn:focus-visible,
+.confirmPrimary:focus-visible,
+.confirmDanger:focus-visible {
+    outline: 2.5px solid var(--blue);
+    outline-offset: 2px;
+}

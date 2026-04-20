@@ -208,7 +208,7 @@
   align-self: flex-start;
   padding: 8px 20px;
   background: var(--blue-text);
-  color: #fff;
+  color: var(--btn-text);
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;

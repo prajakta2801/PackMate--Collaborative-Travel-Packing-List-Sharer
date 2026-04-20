@@ -5,6 +5,7 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
 .label {
   font-size: 11px;
   font-weight: 500;
@@ -13,11 +14,13 @@
   color: var(--ink-3);
   white-space: nowrap;
 }
+
 .pills {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
+
 .pill {
   padding: 5px 13px;
   border: 0.5px solid var(--border-mid);
@@ -30,19 +33,28 @@
   transition: all 0.15s;
   white-space: nowrap;
 }
+
 .pill:hover {
   border-color: var(--blue);
   color: var(--blue-text);
   background: var(--blue-bg);
 }
+
 .pillOn {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fff;
+  color: var(--btn-text);
   font-weight: 500;
 }
+
 .pillOn:hover {
   background: var(--blue-text);
   border-color: var(--blue-text);
-  color: #fff;
+  color: var(--btn-text);
+}
+
+.pill:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 99px;
 }

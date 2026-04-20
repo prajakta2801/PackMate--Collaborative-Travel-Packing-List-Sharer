@@ -11,13 +11,16 @@
     border-color 0.15s,
     background 0.15s;
 }
+
 .row:hover {
   border-color: var(--border-mid);
 }
+
 .checked {
   opacity: 0.5;
   background: var(--bg-soft);
 }
+
 .checked .name {
   text-decoration: line-through;
 }
@@ -35,13 +38,16 @@
   transition: all 0.15s;
   flex-shrink: 0;
 }
+
 .checkbox:hover {
   border-color: var(--blue);
 }
+
 .checkboxOn {
   background: var(--blue);
   border-color: var(--blue);
 }
+
 .tick {
   color: #fff;
   font-size: 11px;
@@ -60,11 +66,13 @@
   flex-direction: column;
   gap: 1px;
 }
+
 .name {
   font-size: 13px;
   font-weight: 500;
   color: var(--ink);
 }
+
 .cat {
   font-size: 11px;
   color: var(--ink-3);
@@ -92,6 +100,7 @@
   transition: background 0.15s;
   flex-shrink: 0;
 }
+
 .addBtn:hover {
   background: var(--blue-text);
 }
@@ -104,7 +113,25 @@
   transition: all 0.15s;
   flex-shrink: 0;
 }
+
 .removeBtn:hover {
   color: var(--red-text);
   background: var(--red-bg);
+}
+
+.checkbox:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.addBtn:focus-visible,
+.removeBtn:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.row:focus-within {
+  border-color: var(--blue);
 }

@@ -1,4 +1,3 @@
-// src/components/TripCard/TripCard.js
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { climateEmoji } from '../../utils/constants';
@@ -17,10 +16,12 @@ const TripCard = ({ trip, index, onDelete }) => {
   const meta = statusMeta[trip.status] || statusMeta.planning;
 
   return (
-    <div className={styles.row}>
-      <span className={styles.num}>{String(index + 1).padStart(2, '0')}</span>
+    <div className={styles.row} role="listitem">
+      <span className={styles.num} aria-hidden="true">
+        {String(index + 1).padStart(2, '0')}
+      </span>
 
-      <div className={`${styles.icon} ${styles[`icon_${meta.cls}`]}`}>
+      <div className={`${styles.icon} ${styles[`icon_${meta.cls}`]}`} aria-hidden="true">
         {climateEmoji[trip.climate] || '✈️'}
       </div>
 
@@ -32,25 +33,43 @@ const TripCard = ({ trip, index, onDelete }) => {
       </div>
 
       <div className={styles.progress}>
-        <div className={styles.track}>
+        <div
+          className={styles.track}
+          role="progressbar"
+          aria-valuenow={pct}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Packing: ${pct}%`}
+        >
           <div
             className={`${styles.fill} ${styles[`fill_${meta.cls}`]}`}
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className={styles.pct}>{pct}%</span>
+        <span className={styles.pct} aria-hidden="true">
+          {pct}%
+        </span>
       </div>
 
-      <span className={`${styles.badge} ${styles[`badge_${meta.cls}`]}`}>{meta.label}</span>
+      <span
+        className={`${styles.badge} ${styles[`badge_${meta.cls}`]}`}
+        aria-label={`Status: ${meta.label}`}
+      >
+        {meta.label}
+      </span>
 
       <div className={styles.actions}>
-        <Link to={`/trip/${trip._id}`} className={styles.viewBtn}>
+        <Link
+          to={`/trip/${trip._id}`}
+          className={styles.viewBtn}
+          aria-label={`View packing list for ${trip.tripName}`}
+        >
           View →
         </Link>
         <button
           className={styles.deleteBtn}
           onClick={() => onDelete(trip._id)}
-          aria-label="delete trip"
+          aria-label={`Delete ${trip.tripName}`}
         >
           ✕
         </button>

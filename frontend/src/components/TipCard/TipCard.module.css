@@ -141,3 +141,9 @@
   color: var(--ink-3);
   white-space: nowrap;
 }
+
+.upvote:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}

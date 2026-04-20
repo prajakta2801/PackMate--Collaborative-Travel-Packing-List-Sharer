@@ -45,6 +45,26 @@ const Dashboard = ({ user, isAuthenticated }) => {
 
   const visibleTrips = tab === 'all' ? trips : trips.filter((t) => t.status === tab);
 
+  const handleTabKeyDown = (e, t) => {
+    const idx = TABS.indexOf(t);
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setTab(TABS[(idx + 1) % TABS.length]);
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setTab(TABS[(idx - 1 + TABS.length) % TABS.length]);
+    }
+    if (e.key === 'Home') {
+      e.preventDefault();
+      setTab(TABS[0]);
+    }
+    if (e.key === 'End') {
+      e.preventDefault();
+      setTab(TABS[TABS.length - 1]);
+    }
+  };
+
   if (loading) return <CenteredSpinner size="small" />;
 
   return (
@@ -62,7 +82,7 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </Link>
         </div>
 
-        <div className={styles.summary}>
+        <div className={styles.summary} aria-label="Trip summary">
           <div className={styles.summCard}>
             <span className={styles.summN}>{trips.length}</span>
             <span className={styles.summL}>Total</span>
@@ -81,27 +101,33 @@ const Dashboard = ({ user, isAuthenticated }) => {
           </div>
         </div>
 
-        <div className={styles.tabs}>
+        <div className={styles.tabs} role="tablist" aria-label="Filter trips by status">
           {TABS.map((t) => (
             <button
               key={t}
+              role="tab"
               className={`${styles.tab} ${tab === t ? styles.tabOn : ''}`}
               onClick={() => setTab(t)}
+              onKeyDown={(e) => handleTabKeyDown(e, t)}
+              aria-selected={tab === t}
+              tabIndex={tab === t ? 0 : -1}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
-              <span className={styles.tabCount}>{counts[t]}</span>
+              <span className={styles.tabCount} aria-hidden="true">
+                {counts[t]}
+              </span>
             </button>
           ))}
         </div>
 
         {visibleTrips.length > 0 ? (
-          <div className={styles.list}>
+          <div className={styles.list} role="list" aria-label="Trips">
             {visibleTrips.map((trip, i) => (
               <TripCard key={trip._id} trip={trip} index={i} onDelete={handleDelete} />
             ))}
           </div>
         ) : (
-          <div className={styles.empty}>
+          <div className={styles.empty} role="status">
             <p className={styles.emptyTitle}>
               {tab === 'all' ? 'No trips here yet.' : `No ${tab} trips.`}
             </p>

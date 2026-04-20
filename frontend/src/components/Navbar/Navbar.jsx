@@ -1,4 +1,3 @@
-// src/components/Navbar/Navbar.js
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -25,19 +24,29 @@ const Navbar = ({ user, isAuthenticated }) => {
     }
   };
 
+  const handleNavKeyDown = (e) => {
+    if (e.key === 'Escape' && open) setOpen(false);
+  };
+
   return (
-    <nav className={styles.nav}>
+    <nav className={styles.nav} onKeyDown={handleNavKeyDown}>
       <div className={`${styles.inner} container`}>
-        <Link to="/" className={styles.logo}>
-          <span className={styles.logoDot} />
+        <Link to="/" className={styles.logo} aria-label="PackMate home">
+          <span className={styles.logoDot} aria-hidden="true" />
           PackMate
         </Link>
 
-        <div className={`${styles.links} ${open ? styles.linksOpen : ''}`}>
+        <div
+          id="main-nav"
+          className={`${styles.links} ${open ? styles.linksOpen : ''}`}
+          role="navigation"
+          aria-label="Main navigation"
+        >
           <Link
             to="/dashboard"
             className={`${styles.link} ${active('/dashboard') ? styles.linkActive : ''}`}
             onClick={() => setOpen(false)}
+            aria-current={active('/dashboard') ? 'page' : undefined}
           >
             My Trips
           </Link>
@@ -45,6 +54,7 @@ const Navbar = ({ user, isAuthenticated }) => {
             to="/community"
             className={`${styles.link} ${active('/community') ? styles.linkActive : ''}`}
             onClick={() => setOpen(false)}
+            aria-current={active('/community') ? 'page' : undefined}
           >
             Community
           </Link>
@@ -54,6 +64,7 @@ const Navbar = ({ user, isAuthenticated }) => {
                 to="/profile"
                 className={`${styles.link} ${active('/profile') ? styles.linkActive : ''}`}
                 onClick={() => setOpen(false)}
+                aria-current={active('/profile') ? 'page' : undefined}
               >
                 {user?.name?.split(' ')[0]}
               </Link>
@@ -63,7 +74,12 @@ const Navbar = ({ user, isAuthenticated }) => {
             </>
           ) : (
             <>
-              <Link to="/login" className={styles.link} onClick={() => setOpen(false)}>
+              <Link
+                to="/login"
+                className={styles.link}
+                onClick={() => setOpen(false)}
+                aria-current={active('/login') ? 'page' : undefined}
+              >
                 Sign in
               </Link>
               <Link to="/register" className={styles.solidBtn} onClick={() => setOpen(false)}>
@@ -73,7 +89,13 @@ const Navbar = ({ user, isAuthenticated }) => {
           )}
         </div>
 
-        <button className={styles.burger} onClick={() => setOpen(!open)} aria-label="menu">
+        <button
+          className={styles.burger}
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          aria-controls="main-nav"
+        >
           <span className={`${styles.bar} ${open ? styles.bar1Open : ''}`} />
           <span className={`${styles.bar} ${open ? styles.bar2Open : ''}`} />
           <span className={`${styles.bar} ${open ? styles.bar3Open : ''}`} />

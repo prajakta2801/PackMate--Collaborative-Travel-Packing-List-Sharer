@@ -6,12 +6,14 @@
   background: var(--bg);
   border-bottom: 0.5px solid var(--border);
 }
+
 .inner {
   height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .logo {
   display: flex;
   align-items: center;
@@ -23,6 +25,7 @@
   text-transform: uppercase;
   color: var(--ink);
 }
+
 .logoDot {
   width: 8px;
   height: 8px;
@@ -30,11 +33,13 @@
   background: var(--blue);
   flex-shrink: 0;
 }
+
 .links {
   display: flex;
   align-items: center;
   gap: 4px;
 }
+
 .link {
   font-size: 13px;
   font-weight: 400;
@@ -46,14 +51,17 @@
     background 0.15s;
   letter-spacing: 0.01em;
 }
+
 .link:hover {
   color: var(--ink);
   background: var(--bg-soft);
 }
+
 .linkActive {
   color: var(--blue-text);
   font-weight: 500;
 }
+
 .solidBtn {
   margin-left: 6px;
   padding: 7px 16px;
@@ -64,9 +72,11 @@
   font-weight: 500;
   transition: background 0.15s;
 }
+
 .solidBtn:hover {
   background: var(--blue-text);
 }
+
 .outlineBtn {
   margin-left: 6px;
   padding: 6px 14px;
@@ -76,6 +86,7 @@
   color: var(--ink-2);
   transition: all 0.15s;
 }
+
 .outlineBtn:hover {
   color: var(--ink);
   border-color: var(--ink);
@@ -90,6 +101,7 @@
   background: none;
   border: none;
 }
+
 .bar {
   display: block;
   width: 20px;
@@ -100,20 +112,38 @@
     transform 0.25s,
     opacity 0.25s;
 }
+
 .bar1Open {
   transform: translateY(6.5px) rotate(45deg);
 }
+
 .bar2Open {
   opacity: 0;
 }
+
 .bar3Open {
   transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.logo:focus-visible,
+.link:focus-visible,
+.solidBtn:focus-visible,
+.outlineBtn:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.burger:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
 @media (max-width: 680px) {
   .burger {
     display: flex;
   }
+
   .links {
     display: none;
     position: absolute;
@@ -127,9 +157,11 @@
     padding: 12px 24px 20px;
     gap: 2px;
   }
+
   .linksOpen {
     display: flex;
   }
+
   .solidBtn,
   .outlineBtn {
     margin-left: 0;

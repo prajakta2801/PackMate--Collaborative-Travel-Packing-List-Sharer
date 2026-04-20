@@ -1,4 +1,3 @@
-// src/App.js
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Home/Home';
@@ -26,50 +25,48 @@ const RoutesProvider = () => {
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
       />
-      <Routes>
-        <Route path="/community" element={<Community />} />
-        <Route
-          path="/community/:id"
-          element={
-            <CommunityTripDetail userEmail={user?.email} isAuthenticated={isAuthenticated} />
-          }
-        />
-        <Route element={<PageAccessWrapper />}>
+      <main id="main-content" tabIndex={-1}>
+        <Routes>
+          <Route path="/community" element={<Community />} />
           <Route
-            path="/dashboard"
-            element={<Dashboard user={user} isAuthenticated={isAuthenticated} />}
-          />
-          <Route
-            path="/create-trip"
-            element={isAuthenticated ? <CreateTrip /> : <Navigate to="/login" replace />}
-          />
-
-          <Route path="/trip/:id" element={<TripDetail userEmail={user?.email} />} />
-
-          <Route
-            path="/profile"
+            path="/community/:id"
             element={
-              isAuthenticated ? (
-                <Profile user={user} isAuthenticated={isAuthenticated} />
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <CommunityTripDetail userEmail={user?.email} isAuthenticated={isAuthenticated} />
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-
-        <Route path="/" element={<Home />} />
-
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register />}
-        />
-      </Routes>
+          <Route element={<PageAccessWrapper />}>
+            <Route
+              path="/dashboard"
+              element={<Dashboard user={user} isAuthenticated={isAuthenticated} />}
+            />
+            <Route
+              path="/create-trip"
+              element={isAuthenticated ? <CreateTrip /> : <Navigate to="/login" replace />}
+            />
+            <Route path="/trip/:id" element={<TripDetail userEmail={user?.email} />} />
+            <Route
+              path="/profile"
+              element={
+                isAuthenticated ? (
+                  <Profile user={user} isAuthenticated={isAuthenticated} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register />}
+          />
+        </Routes>
+      </main>
     </>
   );
 };

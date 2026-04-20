@@ -1,4 +1,3 @@
-// src/pages/Login/Login.js
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
@@ -45,7 +44,11 @@ const Login = () => {
           <h1 className={styles.title}>Welcome back</h1>
           <p className={styles.sub}>Sign in to access your trips and lists.</p>
 
-          {error && <div className={styles.errorBox}>{error}</div>}
+          {error && (
+            <div className={styles.errorBox} role="alert">
+              {error}
+            </div>
+          )}
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="email">
@@ -58,6 +61,7 @@ const Login = () => {
               placeholder="you@example.com"
               value={form.email}
               onChange={(e) => set('email', e.target.value)}
+              aria-required="true"
             />
           </div>
 
@@ -73,6 +77,7 @@ const Login = () => {
               value={form.password}
               onChange={(e) => set('password', e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
+              aria-required="true"
             />
           </div>
 
